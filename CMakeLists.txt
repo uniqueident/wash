@@ -38,10 +38,10 @@ target_link_libraries(head_nine ${LIBS})
 # set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 message(STATUS 
-"\nRuntime Directory:" ${CMAKE_SOURCE_DIR}/Project/build
-"\nLibrary Directory: " ${CMAKE_SOURCE_DIR}/Project/build
+"\nRuntime Directory:" ${CMAKE_SOURCE_DIR}/build
+"\nLibrary Directory: " ${CMAKE_SOURCE_DIR}/build
 )
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/Project/build)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/Project/build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
