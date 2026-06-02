@@ -13,27 +13,48 @@
 
 vector_t executable_paths = NULL;
 
-static const char* builtin_commands[] = {
+//Builtin commands to read.
+const char* builtin_commands[] = {
     "echo",
     "pwd",
     "cd",
     "setpath",
-    "help"
+    "help",
+    "exit"
 };
 
+//Flavor text for the help command.
+const char* help_text[] ={
+    "echo <message>: prints \"echo <message>\"",
+    "pwd: prints the current working directory",
+    "cd <path>: changes the current working directory to <path>",
+    "setpath <path> (<path>* ) : sets the executable paths to check for executables.",
+    "help: prints out help text for builtin commands.",
+    "exit: exits the shell."
+};
+
+//Couldn't make string enums in C, so this was a compromise.
 typedef enum{
  ID_echo =0 ,
  ID_pwd,
  ID_cd,
  ID_setpath,
  ID_help,
+ ID_exit,
  __SENTINEL__
 } Builtin;
 
+
+/**
+ * @brief Utility function to get the current path vector.
+ * 
+ * @return vector_t 
+ */
 vector_t get_path(){
     return executable_paths;
 }
 
+//read the .h file for details.
 void create_paths_vector(){
     if(executable_paths == NULL){
         executable_paths = vec_create();
@@ -43,22 +64,31 @@ void create_paths_vector(){
         append(&executable_paths,initial);
     }
 }
-
+//read the .h file for details.
 void destroy_paths_vector(){
     destroy(&executable_paths);
 }
 
-//as it says on the tin.
+/**
+ * @brief echos a given message, but since the text has been parsed, spaces and tabs are not kept.
+ * 
+ * @param message 
+ */
 void echo(vector_t* message){
-    if(message == NULL){
+    if(message == NULL || vec_size(message)<2){
+        printf("Command <%s> requires at least one argument!\n",get(message,0));
         return;
     }
-    for(int i = 0; i <vec_size(message)-1; i++){
+    for(int i = 1; i <vec_size(message)-1; i++){
         printf("%s ",get(message,i));
     }
     printf("%s\n", get(message,vec_size(message)-1));
 }
 
+/**
+ * @brief Prints the current working directory of the shell.
+ * 
+ */
 void pwd(){
     char cwd[MAX_SIZE+1] = {0};
     char* res = getcwd(cwd, sizeof(cwd));
@@ -69,6 +99,16 @@ void pwd(){
     }
 }
 
+/**
+ * @brief Functionally identical to the standard cd command.
+ If no arguments are provided, it will attempt to navigate to the home directory.
+ If there is no home directory, it will print an error and do nothing.
+ If one argument is provided, it will attempt to navigate to that directory.
+ If more than one argument is provided, it will do nothing.
+ * 
+ * @param path The arguments to the cd command.
+ * @return int Returns 0 on success -1 on failure.
+ */
 int cd(vector_t* path){
     int res = 0;
 
@@ -92,10 +132,11 @@ int cd(vector_t* path){
 }
 
 /**
- * @brief sets the executable paths that the shell will look for for the executables.
+ * @brief Checks to see if given path exists.
  * 
- * @param args the paths that are space delimited.
- * @return int 
+ * @param path Path to check
+ * @param sb Stat struct to write the info to.
+ * @return struct stat* 
  */
 struct stat* check(char* path, struct stat* sb){
     if(path == NULL){
@@ -107,6 +148,14 @@ struct stat* check(char* path, struct stat* sb){
     return sb;
 }
 
+/**
+ * @brief Sets the executable paths that the shell will utilize to search for executables.
+ Any non-directory paths will be ignored.
+ If no paths are provided, the path will be cleared, and a warning given.
+ * 
+ * @param args The paths to set in the path.
+ * @return int Returns 0 on success, -1 on failure.
+ */
 int setpath(vector_t* args){
     if (args == NULL){
         printf("No paths provided to setpath\n");
@@ -136,6 +185,7 @@ int setpath(vector_t* args){
     }
     return 0;
 }
+
 /**
  * @brief Prints out the available functions and the helper text.
  * 
@@ -143,10 +193,17 @@ int setpath(vector_t* args){
 void help(){
     printf("Available builtin commands:\n");
     for(int i=0; i<__SENTINEL__; i++){
-        printf("\t%s\n", builtin_commands[i]);
+        printf("\t%s\n", help_text[i]);
     }
 }
 
+/**
+ * @brief This is the function to call external commands. It will search the paths for an executable with the same name as the command, and attempt to run it.
+ Note that the code is a bit of a mess, but should be safe.
+ * 
+ * @param argv A vector of arguments for the command
+ * @return int Returns 0 on success, -1 on failure.
+ */
 int execute_external(vector_t *argv){
     if(executable_paths != NULL && vec_size(&executable_paths)<1){
         printf("Warning, Path has been emptied. Please set a path to search for executables.\n");
@@ -178,6 +235,14 @@ int execute_external(vector_t *argv){
             continue;
         }
 
+        /*
+        This call to fork does not take any arguments,
+        This systemcall create a new process by duplicating the calling process.
+        In this case: "wash" is the calling process.
+        If the return value of the fork is 0 its the new process
+        If it is positive, it is the parent of the new process.
+        Otherwise, the fork failed.
+        */
         int res = fork();
         if(res == -1){
             //failure
@@ -185,8 +250,21 @@ int execute_external(vector_t *argv){
             return -1;
         }else if(res == 0){
             //child
-            //copy required here, as the applicaion now assumes it is in charge of the memory.
-            res = execvp(buf, copy_to_array(argv));
+            /*
+            This call to execvp takes the PATH of the executable/script to run and the arguments to provide to said program.
+            Now, there is something interesting to note about how I am calling it.
+            Since execvp takes an array of char* for its second argument. I use my vector implementation to create said array.
+            Now what is notable, is that once that is passed in, the child process now has ownership of said memory.
+            As such, the child is now responsible for freeing the array.
+            This 
+            */
+            char** arr = copy_to_array(argv);
+            res = execvp(buf, arr);
+            if(res == -1){
+                free(arr);
+                printf("Failure to execute command.\n");
+                return -1;
+            }
         }else{
             //parent
             wait(NULL);
@@ -205,6 +283,13 @@ int execute_external(vector_t *argv){
     return 0;
 }
 
+/**
+ * @brief Runs the builtin command with arguments. If no matching command is found, it will search the given paths for an executable with the same name, and attempt to run it.
+ * 
+ * @param cmd_id 
+ * @param args 
+ * @return int 
+ */
 int execute(const int cmd_id, vector_t* args){
    //this should just run the command directly. If it doesn't exist, return a negative number. success on 0.
    switch (cmd_id)
@@ -232,14 +317,6 @@ int execute(const int cmd_id, vector_t* args){
    return 0;
 }
 
-
-
-/**
- * @brief Checks to see if the command is a builtin command, uses the POSIX standard for return codes.
- * 
- * @param command A string that is the command to check.
- * @return int Returns -1 on failure, index of the builtin command otherwise.
- */
 const int builtin_command_ID(const char* command){
 
     for(int i=0; i<__SENTINEL__; i++){

@@ -19,6 +19,7 @@ vector_t strparse(char* input, vector_t* vec){
             while(*input != ' ' && *input != '\t' && *input != '\0'){input++;}
             //view the arg!
             view = to_stringview(start, input);
+            //manual allocation needed
             start = calloc(view_size(&view),sizeof(char));
             copy_substring(&view, start);
             append(vec,start);
@@ -28,30 +29,3 @@ vector_t strparse(char* input, vector_t* vec){
     }
     return *vec;
 }
-
-
-
-/*
-Okay brief description.
-
-Make a parser that takes in a string input. The string must have the following qualities:
-1. Must be null byte terminated.
-2. Must be space delimited.
-The string may have the following attribute:
-1. Piping, and reidirection
-2. Quoted strings (maybe).
-
-After parsing, the function should return A NEWLY ALLOCATED array of strings.
-
-This allows us to pass it into programs that take arguments.
-Once passed in, note that the program CREATES A COPY of the args.
-This means we can free the array after the program call.
-
-
-Stringview becomes useful here. Create a stringview for EACH ARGUMENT.
-This allows us to count the args, and get the length of each arg.
-We can now allocate the argv array pointers. using argc.
-
-THen once we have those views, we can use our stringview copy to copy the string.
-Finally we can add 
-*/

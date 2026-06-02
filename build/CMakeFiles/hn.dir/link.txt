@@ -1,1 +1,0 @@
-/usr/bin/cc -g CMakeFiles/hn.dir/head_nine/head_nine.c.o -o /home/uniqueident/wash/hn  Project/lib/builtin/libcommands_builtin.a Project/lib/stringview/libstringview.a Project/lib/parseargs/libparseargs.a Project/lib/vector/libvector.a Project/lib/stringview/libstringview.a 

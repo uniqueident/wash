@@ -7,8 +7,13 @@ int view_length(stringview* strview){
     }
     return (int)(strview->end-strview->start);
 }
+
 int view_size(stringview* strview){
-    return view_length(strview)+1;
+    int length = view_length(strview);
+    if(length == -1){
+        return -1;
+    }
+    return length+1;
 }
 
 void copy_nsubstring(stringview *strview, int n, char *dest){
@@ -22,6 +27,7 @@ void copy_nsubstring(stringview *strview, int n, char *dest){
     if(n > len){
         n = len;
     }
+    // Copy the stringview into the destination buffer for ease of use.
     memcpy(dest, strview->start, n);
     dest[n] = '\0';
 }
@@ -44,7 +50,7 @@ stringview to_nstringview(char *start, int n){
     if(len < n){
         return view;
     }
-
+    //return the stringview struct with the appropriate values.
     view.start = start;
     view.end = start + n;
     return view;
@@ -63,5 +69,6 @@ stringview to_stringview(char *start, char *end){
     if(start > end){
         return view;
     }
+    //just calls the other implementation for simplicity sake.
     return to_nstringview(start, (int)(end - start));
 }

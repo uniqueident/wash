@@ -1,14 +1,18 @@
+/**
+ * @file head_nine.c
+ * @author Uniqueident (you@domain.com)
+ * @brief A simple implementation of the `head` command, reads 9 lines by default, but can read up to `n` lines if specified. If no file is provided, it reads from stdin.
+ * @version 0.1
+ * @date 2026-06-02
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <strings.h>
-#include <stdint.h>
-#include <unistd.h>
-#include "parseargs.h"
-#include "vector.h"
 
 
 #define MAX_SIZE (256 + 1)
@@ -62,11 +66,13 @@ static char buf[MAX_SIZE] = {0};
  * @return int 
  */
 int main(int argc, char** argv){
+    //Input validation.
     if(argc>4){
         printf("Too many args 2 max\n");
         return -1;
     }
 
+    //check if help flag is provided.
     if(argc > 1 && strcmp(argv[1],"-h") == 0){
         help();
         return 0;

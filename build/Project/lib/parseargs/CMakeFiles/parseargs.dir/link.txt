@@ -1,2 +1,0 @@
-/usr/bin/ar qc libparseargs.a CMakeFiles/parseargs.dir/parseargs.c.o
-/usr/bin/ranlib libparseargs.a

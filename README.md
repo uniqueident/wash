@@ -92,7 +92,14 @@ Multiple folders may be added to the PATH, but they must be space separated.
 
 This will list all the built-in commands with short descriptions.
 - Usage: help
-
+```C
+    "echo <message>: prints \"echo <message>\"",
+    "pwd: prints the current working directory",
+    "cd <path>: changes the current working directory to <path>",
+    "setpath <path> (<path>* ) : sets the executable paths to check for executables.",
+    "help: prints out help text for builtin commands.",
+    "exit: exits the shell."
+```
 
 ## Redirection
 

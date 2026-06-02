@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include "builtin.h"
 #include "parseargs.h"
-#include "stringview.h"
 #include "vector.h"
 
 //I really wanted the Ansi codes. cheatsheet here: https://gist.github.com/ConnerWill/d4b6c776b509add763e17f9f113fd25b

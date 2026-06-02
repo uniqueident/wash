@@ -1,13 +1,13 @@
 #include "vector.h"
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 //The actual structure.
 struct vector{
     int size;
     int capacity;
     char** array;
 };
+
 void clean(vector_t* vec){
     if(vec == NULL){
         return;
@@ -20,12 +20,7 @@ void clean(vector_t* vec){
     (*vec)->size = 0;
 }
 
-/**
- * @brief Get the raw array object
- * 
- * @param vec 
- * @return char** 
- */
+
 char** get_raw_array(vector_t* vec){
     if((*vec) == NULL){
         return NULL;
@@ -69,13 +64,7 @@ int try_resize(vector_t* vec){
     }
     return 0;
 }
-/**
- * @brief Pushs the vector back. This will always take O(n) time. Use sparingly.
- * 
- * @param vec 
- * @param str String to place on the front.
- * @return int 
- */
+
 int push_back(vector_t* vec,char* str){
     if(vec == NULL || str == NULL){
         return -1;
@@ -93,13 +82,7 @@ int push_back(vector_t* vec,char* str){
     (*vec)->size += 1;
     return 0;
 }
-/**
- * @brief Adds to the end of the vector, appends at the end, this results in the least amount of movement.
- * 
- * @param vec 
- * @param str String to place in the back.
- * @return int 
- */
+
 int append(vector_t* vec, char* str){
     if(vec == NULL || str == NULL){
         return -1;
@@ -114,13 +97,7 @@ int append(vector_t* vec, char* str){
     (*vec)->size += 1;
     return 0;
 }
-/**
- * @brief Works similarly to how you would get the value at the index of an array.
- * 
- * @param vec 
- * @param index Integer value that is non-zero and in the range of 0 to size-1.
- * @return char* 
- */
+
 char* get(vector_t* vec ,int index){
     if(index >= (*vec)->size || index<0){
         return NULL;
@@ -128,21 +105,10 @@ char* get(vector_t* vec ,int index){
     return (*vec)->array[index];
 }
 
-/**
- * @brief Returns the size of the vector (Tip: max index = size-1)
- * 
- * @param vec 
- * @return int 
- */
 int vec_size(vector_t* vec){
     return (*vec)->size;
 }
 
-/**
- * @brief Similar in function to a destructor in C++
- * 
- * @param vec 
- */
 void destroy(vector_t* vec){
     if(vec == NULL || *vec == NULL){
         return;
@@ -159,12 +125,6 @@ void destroy(vector_t* vec){
     free(*vec);
 }
 
-/**
- * @brief "Deepcopy" of the underlying vector, returns it as an array of strings, with a null terminaton.
- * 
- * @param vec 
- * @return char** (Array of nullbyte character strings.)
- */
 char** copy_to_array(vector_t* vec){
     if((*vec) == NULL){
         return NULL;

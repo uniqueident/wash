@@ -1,3 +1,13 @@
+/**
+ * @file stringview.h
+ * @author UniqueIdent
+ * @brief A short and simple implementation of a stringview struct.
+ * @version 0.1
+ * @date 2026-06-02
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #pragma once
 
 typedef struct{
@@ -7,8 +17,20 @@ typedef struct{
 
 
 
+/**
+ * @brief Gets the length of the stringview, returns -1 if the stringview is considered invalid.
+ * 
+ * @param strview 
+ * @return int Returns length of stringview, -1 if invalid.
+ */
 int view_length(stringview* strview);
 
+/**
+ * @brief Returns the size of the stringview, which is length+1.
+ * 
+ * @param strview 
+ * @return int Returns size of stringview, -1 if invalid.
+ */
 int view_size(stringview* strview);
 
 /**
