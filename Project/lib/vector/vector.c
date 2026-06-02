@@ -1,3 +1,9 @@
+/*
+Course number: CSC 3350
+Assignment Title: Wash Shell
+Professor: Andy Cameron
+Date: 06/02/2026
+*/
 #include "vector.h"
 #include <stdlib.h>
 #include <string.h>

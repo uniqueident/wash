@@ -1,3 +1,9 @@
+/*
+Course number: CSC 3350
+Assignment Title: Wash Shell
+Professor: Andy Cameron
+Date: 06/02/2026
+*/
 #include "builtin.h"
 #include "vector.h"
 #include <stdint.h>
@@ -281,7 +287,7 @@ int execute_external(vector_t *argv){
         }
     }
 
-    return 0;
+    return -1;
 }
 
 /**
@@ -292,6 +298,7 @@ int execute_external(vector_t *argv){
  * @return int 
  */
 int execute(const int cmd_id, vector_t* args){
+    int res = 0;
    switch (cmd_id)
    {
    case ID_echo:
@@ -310,8 +317,10 @@ int execute(const int cmd_id, vector_t* args){
         help();
         break;
    default:
-        
-        return execute_external(args);
+        res = execute_external(args);
+        if(res == -1){
+            printf("Command not found: %s\n", get(args,0));
+        }
         break;
    }
    return 0;
