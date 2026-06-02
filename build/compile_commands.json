@@ -1,0 +1,38 @@
+[
+{
+  "directory": "/home/uniqueident/wash/build",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/builtin -I/home/uniqueident/wash/Project/lib/vector -I/home/uniqueident/wash/Project/lib/stringview -I/home/uniqueident/wash/Project/lib/parseargs -g -std=gnu17 -o CMakeFiles/wash.dir/Project/src/wash.c.o -c /home/uniqueident/wash/Project/src/wash.c",
+  "file": "/home/uniqueident/wash/Project/src/wash.c",
+  "output": "CMakeFiles/wash.dir/Project/src/wash.c.o"
+},
+{
+  "directory": "/home/uniqueident/wash/build",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/builtin -I/home/uniqueident/wash/Project/lib/vector -I/home/uniqueident/wash/Project/lib/stringview -I/home/uniqueident/wash/Project/lib/parseargs -g -std=gnu17 -o CMakeFiles/head_nine.dir/proj_head_nine/head_nine.c.o -c /home/uniqueident/wash/proj_head_nine/head_nine.c",
+  "file": "/home/uniqueident/wash/proj_head_nine/head_nine.c",
+  "output": "CMakeFiles/head_nine.dir/proj_head_nine/head_nine.c.o"
+},
+{
+  "directory": "/home/uniqueident/wash/build/Project/lib/builtin",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/builtin -I/home/uniqueident/wash/Project/lib/vector -g -std=gnu17 -o CMakeFiles/commands_builtin.dir/builtin.c.o -c /home/uniqueident/wash/Project/lib/builtin/builtin.c",
+  "file": "/home/uniqueident/wash/Project/lib/builtin/builtin.c",
+  "output": "Project/lib/builtin/CMakeFiles/commands_builtin.dir/builtin.c.o"
+},
+{
+  "directory": "/home/uniqueident/wash/build/Project/lib/stringview",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/stringview -g -std=gnu17 -o CMakeFiles/stringview.dir/stringview.c.o -c /home/uniqueident/wash/Project/lib/stringview/stringview.c",
+  "file": "/home/uniqueident/wash/Project/lib/stringview/stringview.c",
+  "output": "Project/lib/stringview/CMakeFiles/stringview.dir/stringview.c.o"
+},
+{
+  "directory": "/home/uniqueident/wash/build/Project/lib/parseargs",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/parseargs -I/home/uniqueident/wash/Project/lib/stringview -I/home/uniqueident/wash/Project/lib/vector -g -std=gnu17 -o CMakeFiles/parseargs.dir/parseargs.c.o -c /home/uniqueident/wash/Project/lib/parseargs/parseargs.c",
+  "file": "/home/uniqueident/wash/Project/lib/parseargs/parseargs.c",
+  "output": "Project/lib/parseargs/CMakeFiles/parseargs.dir/parseargs.c.o"
+},
+{
+  "directory": "/home/uniqueident/wash/build/Project/lib/vector",
+  "command": "/usr/bin/cc  -I/home/uniqueident/wash/Project/lib/vector -g -std=gnu17 -o CMakeFiles/vector.dir/vector.c.o -c /home/uniqueident/wash/Project/lib/vector/vector.c",
+  "file": "/home/uniqueident/wash/Project/lib/vector/vector.c",
+  "output": "Project/lib/vector/CMakeFiles/vector.dir/vector.c.o"
+}
+]

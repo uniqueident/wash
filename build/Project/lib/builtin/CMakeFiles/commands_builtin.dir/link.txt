@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcommands_builtin.a CMakeFiles/commands_builtin.dir/builtin.c.o
+/usr/bin/ranlib libcommands_builtin.a

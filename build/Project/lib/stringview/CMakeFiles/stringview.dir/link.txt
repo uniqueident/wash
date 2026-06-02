@@ -1,0 +1,2 @@
+/usr/bin/ar qc libstringview.a CMakeFiles/stringview.dir/stringview.c.o
+/usr/bin/ranlib libstringview.a
