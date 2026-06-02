@@ -215,6 +215,7 @@ int execute_external(vector_t *argv){
     const int len = strlen(cmd);
 
     char buf[PATH_SIZE] = {0}; //allocated as such, since paths and files IN THEORY can be up to len*2+2 long.
+    //Although the loop may not seem necessary, it is. It is needed to check each path left to right to see if the executable exists in that path.
     for(int i = 0; i<vec_size(&executable_paths); i++){
         char* path = get(&executable_paths,i);
         int pathlen = strlen(path);
@@ -231,7 +232,6 @@ int execute_external(vector_t *argv){
         struct stat sb;
         if(check(buf, &sb) == NULL || S_ISDIR(sb.st_mode)){
             memset(buf, 0, sizeof(buf));
-            printf("Command not found.\n");
             continue;
         }
 
@@ -266,7 +266,12 @@ int execute_external(vector_t *argv){
                 return -1;
             }
         }else{
-            //parent
+            /*
+            This is a system call that causes the parent process to wait until the child has finished executing.
+            This is needed for our interactive shell because we want the command to finish before coninuing execution.
+            This call is blocking so there is no need for additional synchronization.
+            This allows us to have a consistent user interaction, where the command is executed and finishes before the next prompt is run.
+            */
             wait(NULL);
             return 0;
         }
@@ -274,12 +279,8 @@ int execute_external(vector_t *argv){
         if(res == -1){
             return -1;
         }
-        //here we fork.
-        //if parent, wait on child.
-        //then exit
-        //If child, get execvp on whatever the application that needs to run is.
-
     }
+
     return 0;
 }
 
@@ -291,7 +292,6 @@ int execute_external(vector_t *argv){
  * @return int 
  */
 int execute(const int cmd_id, vector_t* args){
-   //this should just run the command directly. If it doesn't exist, return a negative number. success on 0.
    switch (cmd_id)
    {
    case ID_echo:
